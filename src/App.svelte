@@ -1,7 +1,8 @@
 <script>
+	let result = undefined;
 	const form = {
-		startHour: 0,
-		startMinutes: 0,
+		startHour: 8,
+		startMinutes: 35,
 		shortDay: false,
 		computeLunchBreak: true
 	};
@@ -13,9 +14,38 @@
 		value: index,
 		formatedValue: index < 10 ? `0${index}` : index
 	}));
+	
 
 	function handleSubmit(){
-		console.log(form);
+		result = getWorkJourneyInfo(form);
+	}
+
+	function getWorkJourneyInfo({ startHour = 0, startMinutes = 0, shortDay = false, computeLunchBreak = true })
+	{
+		if(startHour > 23 || startHour  < 0) throw new Error("error");
+		if(startMinutes > 59 || startMinutes < 0) throw new Error("error");
+		
+		const lunchBreakMinutes = 90;
+		
+		const shortDayHours = 6;
+		const normalDayHours = 8;
+		
+		const shortDayMinutes = 40;
+		const normalDayMinutes = 20;
+		
+		let start = new Date();
+		
+		start.setHours(0,0,0,0);
+		start.setHours(startHour, startMinutes);
+		let startTime = `${start.getHours()}:${start.getMinutes()}`
+
+		start.setMinutes(start.getMinutes() +  (computeLunchBreak ? lunchBreakMinutes : 0));
+		start.setHours( start.getHours() + (shortDay ? shortDayHours : normalDayHours));
+		start.setMinutes(start.getMinutes() + (shortDay ? shortDayMinutes : normalDayMinutes));
+
+		let endTime = `${start.getHours()}:${start.getMinutes()}`;
+
+		return {startTime, endTime };
 	}
 </script>
 
@@ -50,6 +80,9 @@
 				<button class="bg-green-500 text-white font-bold p-2">Calcular</button>
 			</div>
 		</form>
+		{#if result !== undefined}
+			<h1 class="text-3xl text-red-500 text-center mt-5">Horário saída {result.endTime}</h1>
+		{/if}
 	</div>
 </main>
 
