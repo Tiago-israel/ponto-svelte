@@ -104,7 +104,8 @@
   </h1>
   <div class="main-container">
     <form on:submit|preventDefault={handleSubmit}>
-      <div class="flex">
+      <span>Horário de entrada</span>
+      <div class="flex items-center">
         <select class="p-2 select w-100" bind:value={form.startHour}>
           {#each hours as hour}
             <option value={hour.value}>{hour.formatedValue}</option>
