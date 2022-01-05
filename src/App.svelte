@@ -28,7 +28,7 @@
     clearInterval(interval);
 
     interval = setInterval(function () {
-      var firstDate = result.startDate.getTime();
+      var firstDate =  new Date().getTime();
       var countDownDate = result.endDate.getTime();
 
       var distance = countDownDate - firstDate;
