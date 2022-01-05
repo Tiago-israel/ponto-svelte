@@ -1,10 +1,11 @@
 <script>
   let result = undefined;
   let interval = undefined;
+  let showTimer = false;
   let countDown = "";
   const form = {
-    startHour: 8,
-    startMinutes: 35,
+    startHour: 0,
+    startMinutes: 0,
     shortDay: false,
     computeLunchBreak: true,
   };
@@ -24,7 +25,7 @@
   function handleSubmit() {
     result = getWorkJourneyInfo(form);
 
-	clearInterval(interval);
+    clearInterval(interval);
 
     interval = setInterval(function () {
       var firstDate = result.startDate.getTime();
@@ -41,7 +42,7 @@
       countDown = hours + "h " + minutes + "m " + seconds + "s ";
 
       result.startDate.setSeconds(result.startDate.getSeconds() + 1);
-
+      showTimer = true;
       if (distance < 0) {
         clearInterval(interval);
       }
@@ -131,16 +132,21 @@
       <h1 class="text-3xl  text-amber-400 text-center mt-5">
         Horário saída {result.endTimeStr}
       </h1>
-	  <div class="w-100 flex items-center justify-center mt-5">
-		<div class="clock-container bg-amber-400 flex items-center justify-center">
-		  <div class="clock-content bg-amber-200 flex flex-col items-center justify-center">
-			<h1 class="text-3xl font-bold text-white">{countDown}</h1>
-			<span class="text-white font-bold">Tempo restante</span>
-		  </div>
-		</div>
-	  </div>
+      {#if showTimer}
+        <div class="w-100 flex items-center justify-center mt-5">
+          <div
+            class="clock-container bg-amber-400 flex items-center justify-center"
+          >
+            <div
+              class="clock-content bg-amber-200 flex flex-col items-center justify-center"
+            >
+              <h1 class="text-3xl font-bold text-white">{countDown}</h1>
+              <span class="text-white font-bold">Tempo restante</span>
+            </div>
+          </div>
+        </div>
+      {/if}
     {/if}
-    
   </div>
 </main>
 
@@ -163,7 +169,7 @@
   .clock-content {
     width: 270px;
     height: 270px;
-	border: 10px solid #fff;
+    border: 10px solid #fff;
     border-radius: 50%;
   }
 </style>
