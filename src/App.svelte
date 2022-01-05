@@ -28,7 +28,7 @@
     clearInterval(interval);
 
     interval = setInterval(function () {
-      var firstDate =  new Date().getTime();
+      var firstDate = new Date().getTime();
       var countDownDate = result.endDate.getTime();
 
       var distance = countDownDate - firstDate;
@@ -83,7 +83,10 @@
       start.getMinutes() + (shortDay ? shortDayMinutes : normalDayMinutes)
     );
 
-    let endTimeStr = `${start.getHours()}:${start.getMinutes()}`;
+    let endTimeStr = `${
+      start.getHours() < 10 ? `0${start.getHours()}` : start.getHours() 
+    }:${start.getMinutes() < 10 ? `0${start.getMinutes()}` : start.getMinutes()}`;
+
     let endDate = start;
 
     return {
