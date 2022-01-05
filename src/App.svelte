@@ -1,8 +1,8 @@
 <script>
 	let result = undefined;
 	const form = {
-		startHour: 8,
-		startMinutes: 35,
+		startHour: 0,
+		startMinutes: 0,
 		shortDay: false,
 		computeLunchBreak: true
 	};
