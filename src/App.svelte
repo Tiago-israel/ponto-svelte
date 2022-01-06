@@ -150,8 +150,8 @@
             <div
               class="clock-content bg-amber-200 flex flex-col items-center justify-center"
             >
-              <h1 class="text-3xl font-bold text-white">{countDown}</h1>
-              <span class="text-white font-bold">Tempo restante</span>
+              <h1 class="text-3xl font-bold text-black">{countDown}</h1>
+              <span class="text-black font-bold">Tempo restante</span>
             </div>
           </div>
         </div>
