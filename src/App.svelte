@@ -22,11 +22,22 @@
       formatedValue: index < 10 ? `0${index}` : index,
     }));
 
-  function handleSubmit() {
+  async function handleSubmit() {
     result = getWorkJourneyInfo(form);
 
     clearInterval(interval);
 
+    if (Notification.permission !== "denied") {
+      // Pede ao usuário para utilizar a Notificação Desktop
+      await Notification.requestPermission();
+    }
+
+    var notification = new Notification("hello", {
+      body: "Hey there!",
+    });
+    notification.onclick = function () {
+      window.open("http://google.com");
+    };
     interval = setInterval(function () {
       var firstDate = new Date().getTime();
       var countDownDate = result.endDate.getTime();
@@ -84,8 +95,10 @@
     );
 
     let endTimeStr = `${
-      start.getHours() < 10 ? `0${start.getHours()}` : start.getHours() 
-    }:${start.getMinutes() < 10 ? `0${start.getMinutes()}` : start.getMinutes()}`;
+      start.getHours() < 10 ? `0${start.getHours()}` : start.getHours()
+    }:${
+      start.getMinutes() < 10 ? `0${start.getMinutes()}` : start.getMinutes()
+    }`;
 
     let endDate = start;
 
