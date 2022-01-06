@@ -26,13 +26,17 @@
     result = getWorkJourneyInfo(form);
 
     clearInterval(interval);
-    
+
+    if(result.startDate.getTime() > new Date().getTime()){
+      showTimer = false;
+      return;
+    }
+
     interval = setInterval(function () {
       var firstDate = new Date().getTime();
       var countDownDate = result.endDate.getTime();
 
       var distance = countDownDate - firstDate;
-
       var hours = Math.floor(
         (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
