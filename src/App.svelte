@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   let result = undefined;
   let interval = undefined;
   let showTimer = false;
@@ -21,6 +22,12 @@
       value: index,
       formatedValue: index < 10 ? `0${index}` : index,
     }));
+
+  function setCurrentTime(){
+    const now = new Date();
+    form.startHour = now.getHours();
+    form.startMinutes = now.getMinutes();
+  };
 
   function getTimeDistance(date = new Date()) {
     const now = Date.now();
@@ -109,6 +116,10 @@
       endDate,
     };
   }
+
+  onMount(() => {
+		setCurrentTime();
+	});
 </script>
 
 <main>
