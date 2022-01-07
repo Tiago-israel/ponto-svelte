@@ -22,34 +22,41 @@
       formatedValue: index < 10 ? `0${index}` : index,
     }));
 
+  function getTimeDistance(date = new Date()) {
+    const now = Date.now();
+    const dateTime = date.getTime();
+    return dateTime - now;
+  }
+
   async function handleSubmit() {
     result = getWorkJourneyInfo(form);
 
     clearInterval(interval);
+    const distance = getTimeDistance(result.endDate);
 
-    if(result.startDate.getTime() > new Date().getTime()){
+    if (distance < 0) {
       showTimer = false;
       return;
     }
 
     interval = setInterval(function () {
-      var firstDate = new Date().getTime();
-      var countDownDate = result.endDate.getTime();
+      const distance = getTimeDistance(result.endDate);
 
-      var distance = countDownDate - firstDate;
-      var hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      countDown = hours + "h " + minutes + "m " + seconds + "s ";
-
-      result.startDate.setSeconds(result.startDate.getSeconds() + 1);
-      showTimer = true;
       if (distance < 0) {
         clearInterval(interval);
+        return;
       }
+
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countDown = `${hours}h ${minutes}m ${seconds}s`;
+      showTimer = true;
+
+      result.startDate.setSeconds(result.startDate.getSeconds() + 1);
     }, 1000);
   }
 
