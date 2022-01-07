@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+
   let result = undefined;
   let interval = undefined;
   let showTimer = false;
@@ -88,8 +89,9 @@
 
     start.setHours(0, 0, 0, 0);
     start.setHours(startHour, startMinutes);
-    let startTimeStr = `${start.getHours()}:${start.getMinutes()}`;
-    let startDate = new Date(start);
+
+    const startTimeStr = `${start.getHours()}:${start.getMinutes()}`;
+    const startDate = new Date(start);
 
     start.setMinutes(
       start.getMinutes() + (computeLunchBreak ? lunchBreakMinutes : 0)
@@ -107,7 +109,7 @@
       start.getMinutes() < 10 ? `0${start.getMinutes()}` : start.getMinutes()
     }`;
 
-    let endDate = start;
+    const endDate = start;
 
     return {
       startTimeStr,
@@ -132,7 +134,7 @@
       <div class="flex items-center">
         <select class="p-2 select w-100" bind:value={form.startHour}>
           {#each hours as hour}
-            <option value={hour.value}>{hour.formatedValue}</option>
+            <option disabled={hour.value <= 5} value={hour.value}>{hour.formatedValue}</option>
           {/each}
         </select>
         <span class="mx-2">:</span>
@@ -199,5 +201,9 @@
     height: 270px;
     border: 10px solid #fff;
     border-radius: 50%;
+  }
+
+  option:disabled {
+    background-color: rgb(248 250 252);
   }
 </style>
