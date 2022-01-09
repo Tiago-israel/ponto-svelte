@@ -1,16 +1,20 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
+  import Switch from "./components/Switch.svelte";
 
   let result = undefined;
   let interval = undefined;
   let showTimer = false;
   let countDown = "";
+  let darkMode = true;
+
   const form = {
     startHour: 0,
     startMinutes: 0,
     shortDay: false,
     computeLunchBreak: true,
   };
+
   const hours = Array(24)
     .fill()
     .map((_, index) => ({
@@ -24,11 +28,11 @@
       formatedValue: index < 10 ? `0${index}` : index,
     }));
 
-  function setCurrentTime(){
+  function setCurrentTime() {
     const now = new Date();
     form.startHour = now.getHours();
     form.startMinutes = now.getMinutes();
-  };
+  }
 
   function getTimeDistance(date = new Date()) {
     const now = Date.now();
@@ -104,9 +108,9 @@
     );
 
     let endTimeStr = `${
-      start.getHours() < 10 ? `0${start.getHours()}` : start.getHours()
-    }:${
-      start.getMinutes() < 10 ? `0${start.getMinutes()}` : start.getMinutes()
+      start.getHours() < 10 ? `0${start.getHours()}h` : `${start.getHours()}h`
+    } : ${
+      start.getMinutes() < 10 ? `0${start.getMinutes()}min` : `${start.getMinutes()}min` 
     }`;
 
     const endDate = start;
@@ -119,22 +123,35 @@
     };
   }
 
+  function toggleTheme() {
+    darkMode = !darkMode;
+  }
+
   onMount(() => {
-		setCurrentTime();
-	});
+    setCurrentTime();
+  });
 </script>
 
-<main>
-  <h1 class="text-4xl text-center text-amber-400 mb-5">
-    Calcular horário de saída
-  </h1>
-  <div class="main-container">
+<main class="{darkMode ? 'dark' : 'light'} pt-2">
+  <div class="main-container ">
+    <div class="flex justify-end">
+      <div class="flex gap-2">
+        <span class="font-bold theme-label">Modo</span>
+        <Switch id="switch-theme" value={darkMode} on:click={toggleTheme} />
+      </div>
+    </div>
+    <h1 class="text-4xl text-center title text-amber-400 mb-5">
+      Calcular horário de saída
+    </h1>
     <form on:submit|preventDefault={handleSubmit}>
-      <span>Horário de entrada</span>
+      <span class="time-label">Horário de entrada</span>
+
       <div class="flex items-center">
         <select class="p-2 select w-100" bind:value={form.startHour}>
           {#each hours as hour}
-            <option disabled={hour.value <= 5} value={hour.value}>{hour.formatedValue}</option>
+            <option disabled={hour.value <= 5} value={hour.value}
+              >{hour.formatedValue}</option
+            >
           {/each}
         </select>
         <span class="mx-2">:</span>
@@ -147,19 +164,31 @@
       <div class="flex items-center justify-between">
         <div>
           <div class="flex items-center gap-2">
-            <input type="checkbox" bind:checked={form.shortDay} />
-            <span>Sexta feira curta</span>
+            <input
+              id="short-friday"
+              type="checkbox"
+              bind:checked={form.shortDay}
+            />
+            <label for="short-friday">Sexta feira curta</label>
           </div>
           <div class="flex items-center gap-2">
-            <input type="checkbox" bind:checked={form.computeLunchBreak} />
-            <span>Adicionar horário de almoço (1h:30min)</span>
+            <input
+              id="lunch-time"
+              type="checkbox"
+              bind:checked={form.computeLunchBreak}
+            />
+            <label for="lunch-time"
+              >Adicionar horário de almoço (1h:30min)</label
+            >
           </div>
         </div>
-        <button class="bg-amber-400 text-white font-bold p-2">Calcular</button>
+        <button class="bg-amber-400 text-white font-bold p-2 submit-button"
+          >Calcular</button
+        >
       </div>
     </form>
     {#if result !== undefined}
-      <h1 class="text-3xl  text-amber-400 text-center mt-5">
+      <h1 class="text-3xl result-text text-center mt-5">
         Horário saída {result.endTimeStr}
       </h1>
       {#if showTimer}
@@ -180,7 +209,7 @@
   </div>
 </main>
 
-<style>
+<style lang="scss">
   .w-100 {
     width: 100%;
   }
@@ -205,5 +234,69 @@
 
   option:disabled {
     background-color: rgb(248 250 252);
+  }
+
+  .submit-button {
+    color: #000;
+  }
+
+  main {
+    height: 100%;
+    $color-dark: rgb(251 191 36);
+    $color-light: #565656;
+
+    &.dark {
+      background-color: #000;
+      .theme-label {
+        color: $color-dark;
+      }
+      .title {
+        color: $color-dark;
+      }
+
+      .time-label {
+        color: $color-dark;
+      }
+
+      form {
+        label {
+          color: $color-dark;
+        }
+      }
+
+      .result-text {
+        color: $color-dark;
+      }
+
+      .clock-content {
+        border-color: #000;
+      }
+    }
+
+    &.light {
+      background-color: #fff;
+
+      .theme-label {
+        color: $color-light;
+      }
+
+      .title {
+        color: $color-light;
+      }
+
+      .time-label {
+        color: $color-light;
+      }
+
+      form {
+        label {
+          color: $color-light;
+        }
+      }
+
+      .result-text {
+        color: $color-light;
+      }
+    }
   }
 </style>
