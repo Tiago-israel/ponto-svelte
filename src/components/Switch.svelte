@@ -47,6 +47,7 @@
         background-color: #cacaca;
         font-size: 12px;
         text-align: center;
+        transition: all 0.15s ease-in-out;
       }
     }
 
@@ -60,8 +61,7 @@
 
         &::after {
           content: "🌙";
-          left: inherit;
-          right: 2px;
+          left: 31px;
           color: #000;
           background-color: rgb(251 191 36);
         }
