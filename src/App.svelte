@@ -110,7 +110,9 @@
     let endTimeStr = `${
       start.getHours() < 10 ? `0${start.getHours()}h` : `${start.getHours()}h`
     } : ${
-      start.getMinutes() < 10 ? `0${start.getMinutes()}min` : `${start.getMinutes()}min` 
+      start.getMinutes() < 10
+        ? `0${start.getMinutes()}min`
+        : `${start.getMinutes()}min`
     }`;
 
     const endDate = start;
@@ -271,6 +273,12 @@
       .clock-content {
         border-color: #000;
       }
+
+      .select {
+        background-color: #333333;
+        color: #ffffff;
+        border-radius: 0.7em;
+      }
     }
 
     &.light {
@@ -296,6 +304,10 @@
 
       .result-text {
         color: $color-light;
+      }
+
+      .select {
+        border-radius: 0.7em;
       }
     }
   }
