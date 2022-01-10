@@ -36,7 +36,7 @@
       cursor: pointer;
 
       &::after {
-        content: "\002600\00fe0f";
+        content: "☀️";
         position: absolute;
         top: 50%;
         left: 2px;
@@ -46,7 +46,6 @@
         border-radius: 50%;
         background-color: #cacaca;
         font-size: 12px;
-        font-weight: bold;
         text-align: center;
       }
     }
@@ -64,7 +63,6 @@
           left: inherit;
           right: 2px;
           color: #000;
-
           background-color: rgb(251 191 36);
         }
       }
