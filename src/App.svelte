@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
+
   import Switch from "./components/Switch.svelte";
+  import Header from "./components/Header.svelte";
 
   let result = undefined;
   let interval = undefined;
@@ -21,7 +23,7 @@
       value: index,
       formatedValue: index < 10 ? `0${index}` : index,
     }));
-    
+
   const minutes = Array(60)
     .fill()
     .map((_, index) => ({
@@ -29,8 +31,7 @@
       formatedValue: index < 10 ? `0${index}` : index,
     }));
 
-  
-    function setCurrentTime() {
+  function setCurrentTime() {
     const now = new Date();
     form.startHour = now.getHours();
     form.startMinutes = now.getMinutes();
@@ -130,19 +131,20 @@
     darkMode = !darkMode;
   }
 
-  function checkIfFryday(){
+  function checkIfFryday() {
     const fryday = 5;
     return new Date().getDay() === fryday;
   }
 
-  onMount(() => {
+  onMount(async () => {
     setCurrentTime();
     form.shortDay = checkIfFryday();
   });
 </script>
 
-<main class="{darkMode ? 'dark' : 'light'} pt-2">
-  <div class="main-container ">
+<main class="{darkMode ? 'dark' : 'light'}">
+  <Header darkMode={darkMode}></Header>
+  <div class="main-container">
     <div class="flex justify-end">
       <div class="flex gap-2">
         <span class="font-bold theme-label">Modo</span>
@@ -225,7 +227,7 @@
 
   .main-container {
     width: 450px;
-    margin: 0 auto;
+    margin: 20px auto 0 auto;
   }
 
   .clock-container {
