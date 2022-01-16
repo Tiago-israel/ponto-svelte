@@ -21,6 +21,7 @@
       value: index,
       formatedValue: index < 10 ? `0${index}` : index,
     }));
+    
   const minutes = Array(60)
     .fill()
     .map((_, index) => ({
@@ -28,12 +29,12 @@
       formatedValue: index < 10 ? `0${index}` : index,
     }));
 
-  function setCurrentTime() {
+  
+    function setCurrentTime() {
     const now = new Date();
     form.startHour = now.getHours();
     form.startMinutes = now.getMinutes();
   }
-
   function getTimeDistance(date = new Date()) {
     const now = Date.now();
     const dateTime = date.getTime();
@@ -129,8 +130,14 @@
     darkMode = !darkMode;
   }
 
+  function checkIfFryday(){
+    const fryday = 5;
+    return new Date().getDay() === fryday;
+  }
+
   onMount(() => {
     setCurrentTime();
+    form.shortDay = checkIfFryday();
   });
 </script>
 
